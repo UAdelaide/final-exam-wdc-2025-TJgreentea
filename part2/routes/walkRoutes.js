@@ -5,9 +5,8 @@ const db = require('../models/db');
 // GET all walk requests (for walkers to view)
 router.get('/', async (req, res) => {
   try {
-
-     const [rows] = await db.query(
-    `SELECT
+    const [rows] = await db.query(
+    SELECT
          wr.request_id,
          d.name           AS dog_name,
          wr.requested_time,
@@ -18,7 +17,8 @@ router.get('/', async (req, res) => {
        JOIN Dogs d  ON wr.dog_id  = d.dog_id
       JOIN Users u ON d.owner_id = u.user_id
       WHERE wr.status = 'open'
-+    ); // CHANGED: slimmed down SELECT to match /api/walkrequests/open response
+   );
+ // CHANGED: slimmed down SELECT to match /api/walkrequests/open response
     res.json(rows);
   } catch (error) {
     console.error('SQL Error:', error);
