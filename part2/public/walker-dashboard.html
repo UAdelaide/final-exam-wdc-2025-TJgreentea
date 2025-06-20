@@ -74,7 +74,9 @@
               //method: 'POST',
              // headers: { 'Content-Type': 'application/json' },
               //body: JSON.stringify({ walker_id: user })
-            });
+            //});
+            const res = await fetch(`/api/walks/${requestId}/apply`, { method: 'POST' });
+
             const result = await res.json();
 
             if (!res.ok) throw new Error(result.error || 'Application failed');
