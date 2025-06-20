@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
       requested_time,
       duration_minutes,
       location
-    ])// Removed stray comma after VALUES
+    ]); // Removed stray comma after VALUES
     res.status(201).json({ message: 'Walk request created', request_id: result.insertId });
   } catch (error) {
     console.error('SQL Error:', error);
