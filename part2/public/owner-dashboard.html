@@ -23,9 +23,11 @@
             <input v-model="form.dog_id" type="number" class="form-control" required>
           </div>
           <div class="mb-3">
-            <label class="form-label">Requested Date & Time</label>
-            <input v-model="form.requested_time" type="datetime-local" class="form-control" required>
-          </div>
+            <label for="dogID" class="form-label">Select Your Dog</label>
+            <select v-model="form.dog_id" id="dogID" class="form-select" required>
+              <option value="">— Choose a dog —</option>
+            </select>
+         </div>
           <div class="mb-3">
             <label class="form-label">Duration (minutes)</label>
             <input v-model="form.duration_minutes" type="number" class="form-control" required>
