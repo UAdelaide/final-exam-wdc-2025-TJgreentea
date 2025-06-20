@@ -88,6 +88,11 @@
        //onMounted(() => {
          // loadWalkRequests();
        // });
+        onMounted(async () => {
+          await loadUser();
+          if (user.value) {
+            await load
+        });
 
 
 
