@@ -91,7 +91,12 @@
         onMounted(async () => {
           await loadUser();
           if (user.value) {
-            await load
+            await loadUser();
+            if( user.value) {
+              await loadWalkRequests();
+            } else {
+              error.value = 'Please log in to view walk requests';
+            }
         });
 
 
