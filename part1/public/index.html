@@ -2,90 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Dog of the Day</title>
-  <!-- Vue 3 CDN -->
-  <script src="https://unpkg.com/vue@3"></script>
+  <title>Dog Walking Service – Dog of the Day</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <style>
-    /* Clashy colors, tiny & huge text, oscillating animations */
-    body {
-      background: linear-gradient(45deg, hotpink, lime) no-repeat fixed;
-      color: yellow;
-      font-family: "Comic Sans MS", cursive, sans-serif;
-    }
-    h1 { font-size: 5rem; animation: wobble 1s infinite; }
-    p { font-size: 0.5rem; }
-    .dog-card {
-      border: 10px dashed cyan;
-      padding: 2rem;
-      margin: 2rem auto;
-      width: 80%;
-      animation: pulse 0.7s infinite;
-    }
-    @keyframes wobble {
-      0%,100% { transform: rotate(-5deg); }
-      50%     { transform: rotate(5deg); }
-    }
+    /* ─── KINEMATIC LOAD BREAK: one simple pulsing animation ─── */
+    #dog { animation: pulse 2s infinite; }
     @keyframes pulse {
       0%,100% { transform: scale(1); }
-      50%     { transform: scale(1.2); }
-    }
-    button {
-      background: radial-gradient(circle, red, orange);
-      color: white;
-      border: none;
-      padding: 1rem 2rem;
-      animation: shake 0.2s infinite;
-    }
-    @keyframes shake {
-      0%,100% { transform: translateX(-2px); }
-      50%     { transform: translateX(2px); }
+      50%     { transform: scale(1.1); }
     }
   </style>
 </head>
 <body>
   <div id="app">
-    <h1>🐕 Dog of the Day!</h1>
+    <h1>🐶 Dog of the Day</h1>
 
-    <!-- Too much info, tiny labels, no ARIA, no alt text -->
-    <div class="dog-card" tabindex="0">
-      <img :src="imgUrl" />
-      <p>Name: {{ dog.name }} | Breed: {{ dog.breed }} | Age: {{ dog.age }}</p>
-      <p>Description: A friendly pup who loves long walks in the park, swimming, and chasing squirrels!</p>
-      <button @click="fetchDog()">Fetch Another!</button>
-    </div>
+    <!-- ─── ACCESSIBILITY BREAK: no alt attribute on <img> ─── -->
+    <img id="dog" :src="imgUrl">
 
-    <!-- Cluttered footer -->
-    <footer>
-      <marquee behavior="alternate">
-        <span style="font-size:0.6rem">Visit our other pages: Home · About · Contact · Terms · Privacy · Careers · Blog · Support · FAQ · …</span>
-      </marquee>
-    </footer>
+    <!-- ─── COGNITIVE LOAD BREAK: one long, unbroken paragraph ─── -->
+    <p>{{ longBlurb }}</p>
   </div>
 
   <script>
-  const { createApp } = Vue;
-  createApp({
-    data() {
-      return {
-        dog: { name: 'Rover', breed: 'mystery', age: 'N/A' },
-        imgUrl: ''
-      };
-    },
-    methods: {
-      async fetchDog() {
-        try {
-          const res = await fetch('https://dog.ceo/api/breeds/image/random');
-          const { message } = await res.json();
-          this.imgUrl = message;
-        } catch (e) {
-          console.error(e);
-        }
+    const { createApp } = Vue;
+    createApp({
+      data() {
+        return {
+          imgUrl: '',
+          longBlurb: `This friendly pup loves fetch, swimming, hiking, agility courses, socializing
+          at the dog park, cuddling on the couch, learning new tricks like rollover and play dead,
+          enjoys long treats of peanut butter, and always wags its tail when it sees you—truly
+          a companion for every type of adventure you can imagine!`
+        };
+      },
+      async mounted() {
+        // fetch random dog image
+        const res = await fetch('https://dog.ceo/api/breeds/image/random');
+        const { message } = await res.json();
+        this.imgUrl = message;
       }
-    },
-    mounted() {
-      this.fetchDog();
-    }
-  }).mount('#app');
+    }).mount('#app');
   </script>
 </body>
 </html>
