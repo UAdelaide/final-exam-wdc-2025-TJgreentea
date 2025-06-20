@@ -5,16 +5,27 @@
   <title>Dog Walking Service – Dog of the Day</title>
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <style>
-    /* ─── KINEMATIC LOAD BREAK: pulsing animation on the image ─── */
+    body {
+      position: relative;       /* make body the positioning container */
+      min-height: 100vh;
+      margin: 0;
+      overflow: hidden;         /* prevent scrollbars when image sits at edge */
+    }
     #dog {
-      max-width: 300px;      /* limit size so it’s not overwhelming */
+      max-width: 300px;
       width: 100%;
       height: auto;
+      position: absolute;       /* allow free placement */
+      /* Kinematic load pulse retained */
       animation: pulse 2s infinite;
     }
     @keyframes pulse {
       0%, 100% { transform: scale(1); }
       50%      { transform: scale(1.1); }
+    }
+    p {
+      padding: 1rem;
+      font-family: sans-serif;
     }
   </style>
 </head>
@@ -22,10 +33,10 @@
   <div id="app">
     <h1>🐶 Dog of the Day</h1>
 
-    <!-- ─── ACCESSIBILITY BREAK: no alt attribute on the image ─── -->
+    <!-- ACCESSIBILITY BREAK: still no alt attribute -->
     <img id="dog" :src="imgUrl">
 
-    <!-- ─── COGNITIVE LOAD BREAK: one long, unbroken paragraph ─── -->
+    <!-- COGNITIVE LOAD BREAK: one paragraph -->
     <p>
       {{ longBlurb }}
     </p>
@@ -43,11 +54,32 @@ enjoys long treats of peanut butter, and always wags its tail when it sees you�
 a companion for every type of adventure you can imagine!`
         };
       },
+      methods: {
+        // Pick random x,y within viewport minus image size
+        randomizePosition() {
+          const img = document.getElementById('dog');
+          const vw  = window.innerWidth  - img.clientWidth;
+          const vh  = window.innerHeight - img.clientHeight;
+          const x   = Math.random() * vw;
+          const y   = Math.random() * vh;
+          img.style.left = `${x}px`;
+          img.style.top  = `${y}px`;
+        }
+      },
       async mounted() {
         // fetch random dog image
         const res = await fetch('https://dog.ceo/api/breeds/image/random');
         const { message } = await res.json();
         this.imgUrl = message;
+
+        // once image URL is set, wait for DOM update then randomize
+        this.$nextTick(() => {
+          // small delay to ensure image has dimensions
+          setTimeout(() => this.randomizePosition(), 100);
+        });
+
+        // reposition again on window resize
+        window.addEventListener('resize', () => this.randomizePosition());
       }
     }).mount('#app');
   </script>
