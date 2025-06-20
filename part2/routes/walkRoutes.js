@@ -90,15 +90,6 @@ router.get('/:dogs', async (req, res) =>{
   }
 }
 
-    if (rows.length === 0) {
-      return res.status(404).json({ error: 'Dog not found' });
-    }
-
-    res.json(rows[0]);
-  } catch (error) {
-    console.error('SQL Error:', error);
-    res.status(500).json({ error: 'Failed to fetch dog details' });
-  }
-});
+  
 
 module.exports = router;
