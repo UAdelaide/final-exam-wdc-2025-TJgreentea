@@ -32,9 +32,9 @@ router.post('/', async (req, res) => {
 
   try {
     const [result] = await db.query(
-      `INSERT INTO WalkRequests
+      INSERT INTO WalkRequests
          (dog_id, owner_id, requested_time, duration_minutes, location, status)
-       VALUES (?, ?, ?, ?, ?, 'open')`,
+       VALUES (?, ?, ?, ?, ?, 'open'),
       [
         dog_id,
         req.session.user.user_id,  // ADDED: link to logged-in owner
