@@ -88,8 +88,8 @@ router.get('/:dogs', async (req, res) =>{
     console.error('SQL Error:', error);
     res.status(500).json({ error: 'Failed to fetch dogs' });
   }
-}
+});
 
-  
+
 
 module.exports = router;
