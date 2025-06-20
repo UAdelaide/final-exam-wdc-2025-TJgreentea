@@ -46,7 +46,8 @@
         const user = ref(null);// This should be set to the logged-in walker's ID
     // added
 
-    
+        async
+
         async function loadUser() {
           try {
             const res = await fetch('/api/user/me');
