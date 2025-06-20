@@ -90,9 +90,7 @@
        // });
         onMounted(async () => {
           await loadUser();
-          if (user.value) 
-            await loadUser();
-            if( user.value) {
+            if( user.value) 
               await loadWalkRequests();
         });
 
