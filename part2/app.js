@@ -8,8 +8,13 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '/public')));
-app.use(session({)
-
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'some-secret',
+  resave: false,
+  saveUninitialized: false)
+});
+// Set up view engine (if needed, e.g., for rendering HTML pages)
+app.set('views', path.join(__dirname, 'views'));
 // Routes
 const walkRoutes = require('./routes/walkRoutes');
 const userRoutes = require('./routes/userRoutes');
