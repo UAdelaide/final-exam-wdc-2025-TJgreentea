@@ -11,8 +11,8 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.use(session({
   secret: process.env.SESSION_SECRET || 'some-secret',
   resave: false,
-  saveUninitialized: false)
-});
+  saveUninitialized: false
+}));
 // Set up view engine (if needed, e.g., for rendering HTML pages)
 app.set('views', path.join(__dirname, 'views'));
 // Routes
