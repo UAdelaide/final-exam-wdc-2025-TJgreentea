@@ -73,19 +73,13 @@ router.post('/:id/apply', async (req, res) => {
 });
 
 
-router.get('/:dogs', async (req, res) =>
+router.get('/:dogs', async (req, res) =>{
 
   try {
-    cons ownerID= req.session.user.user_id;
+    const ownerID= req.session.user.user_id;
     const [rows] = await db.query(`
       SELECT
-        d.name AS dog_name,
-        d.size,
-        u.username AS owner_username
-      FROM Dogs d
-      JOIN Users u ON d.owner_id = u.user_id
-      WHERE d.dog_id = ?
-    `, [dogId]);
+      
 
     if (rows.length === 0) {
       return res.status(404).json({ error: 'Dog not found' });
