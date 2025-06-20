@@ -5,20 +5,19 @@ const db = require('../models/db');
 // GET all walk requests (for walkers to view)
 router.get('/', async (req, res) => {
   try {
-    const [rows] = await db.query(
-    SELECT
-         wr.request_id,
-         d.name           AS dog_name,
-         wr.requested_time,
-         wr.duration_minutes,
-         wr.location,
-         u.username       AS owner_username
-         FROM WalkRequests wr
-         JOIN Dogs d  ON wr.dog_id  = d.dog_id
-         JOIN Users u ON d.owner_id = u.user_id
-        WHERE wr.status = 'open'
-   );
- // CHANGED: slimmed down SELECT to match /api/walkrequests/open response
+    const [rows] = await db.query(`
+      SELECT
+        wr.request_id,
+        d.name           AS dog_name,
+        wr.requested_time,
+        wr.duration_minutes,
+        wr.location,
+        u.username       AS owner_username
+      FROM WalkRequests wr
+      JOIN Dogs d  ON wr.dog_id  = d.dog_id
+      JOIN Users u ON d.owner_id = u.user_id
+      WHERE wr.status = 'open'
+    `); // SQL is now wrapped in backticks for a valid multiline string
     res.json(rows);
   } catch (error) {
     console.error('SQL Error:', error);
@@ -31,20 +30,20 @@ router.post('/', async (req, res) => {
   const { dog_id, requested_time, duration_minutes, location } = req.body;
 
   try {
-    const [result] = await db.query(
+    const [result] = await db.query(`
       INSERT INTO WalkRequests
-         (dog_id, owner_id, requested_time, duration_minutes, location, status)
-       VALUES (?, ?, ?, ?, ?, 'open'),
-      [
-        dog_id,
-        req.session.user.user_id,  // ADDED: link to logged-in owner
-        requested_time,
-        duration_minutes,
-        location
-      ]
-   ); // CHANGED: include owner_id and default status
+        (dog_id, owner_id, requested_time, duration_minutes, location, status)
+      VALUES (?, ?, ?, ?, ?, 'open')
+    `, [
+      dog_id,
+      req.session.user.user_id, // include owner_id from the session
+      requested_time,
+      duration_minutes,
+      location
+    ]); // Removed stray comma after VALUES
     res.status(201).json({ message: 'Walk request created', request_id: result.insertId });
   } catch (error) {
+    console.error('SQL Error:', error);
     res.status(500).json({ error: 'Failed to create walk request' });
   }
 });
