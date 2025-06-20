@@ -76,7 +76,7 @@ router.post('/:id/apply', async (req, res) => {
 router.get('/:dogs', async (req, res) =>
 
   try {
-    consr owner
+    cons ownerID= req.session.user.user_id;
     const [rows] = await db.query(`
       SELECT
         d.name AS dog_name,
