@@ -58,18 +58,6 @@
           }
         }
 
-        async function loadUser() {
-          try {
-            user.value = await getCurrentUser();
-            if (!user.value) {
-              error.value = 'You must be logged in to view this page';
-              return;
-            }
-          } catch (err) {
-            error.value = err.message;
-          }
-
-        }
         async function loadWalkRequests() {
           try {
             const res = await fetch('/api/walks');
