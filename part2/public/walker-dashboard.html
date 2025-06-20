@@ -46,6 +46,14 @@
         const user = ref(null);// This should be set to the logged-in walker's ID
     // added
         async function loadUser() {
+          try {
+            const res = await fetch('/api/user/me');
+            if (!res.ok) throw new Error('Failed to load user data');
+            const data = await res.json();
+            user.value = data.id; // Assuming the API returns the user's ID
+          } catch (err) {
+            error.value = err.message;
+          }
 
         }
         async function loadWalkRequests() {
