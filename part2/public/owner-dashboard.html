@@ -18,24 +18,32 @@
       </div>
       <div class="card-body">
         <form @submit.prevent="submitWalkRequest">
-          <div class="mb-3">
-            <label class="form-label">Dog ID</label>
-            <input v-model="form.dog_id" type="number" class="form-control" required>
-          </div>
+          <!-- dropdown with owner’s dogs -->
           <div class="mb-3">
             <label for="dogID" class="form-label">Select Your Dog</label>
             <select v-model="form.dog_id" id="dogID" class="form-select" required>
               <option value="">— Choose a dog —</option>
+              <option v-for="d in dogs" :key="d.dog_id" :value="d.dog_id">
+                {{ d.name }}
+              </option>
             </select>
-         </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Requested Date & Time</label>
+            <input v-model="form.requested_time" type="datetime-local" class="form-control" required>
+          </div>
+
           <div class="mb-3">
             <label class="form-label">Duration (minutes)</label>
             <input v-model="form.duration_minutes" type="number" class="form-control" required>
           </div>
+
           <div class="mb-3">
             <label class="form-label">Location</label>
             <input v-model="form.location" type="text" class="form-control" required>
           </div>
+
           <button type="submit" class="btn btn-success">Create Walk</button>
         </form>
       </div>
@@ -66,11 +74,13 @@
     <p v-else>No walk requests yet.</p>
   </div>
 
+  <!-- Vue + page logic -->
   <script>
     const { createApp, ref, onMounted } = Vue;
 
     createApp({
       setup() {
+        /* form fields */
         const form = ref({
           dog_id: '',
           requested_time: '',
@@ -78,10 +88,24 @@
           location: ''
         });
 
-        const walks = ref([]);
+        /* reactive state */
+        const dogs   = ref([]);   // dropdown list
+        const walks  = ref([]);   // owner’s walk requests
         const message = ref('');
-        const error = ref('');
+        const error   = ref('');
 
+        /* load only this owner’s dogs for the dropdown */
+        async function loadDogs() {
+          try {
+            const res  = await fetch('/api/walks/dogs');
+            if (!res.ok) throw new Error('Failed to fetch dogs');
+            dogs.value  = await res.json();     // [{dog_id,name}, …]
+          } catch (err) {
+            error.value = err.message;
+          }
+        }
+
+        /* load owner’s own walk requests */
         async function loadWalks() {
           try {
             const res = await fetch('/api/walks');
@@ -91,6 +115,7 @@
           }
         }
 
+        /* submit form */
         async function submitWalkRequest() {
           try {
             const res = await fetch('/api/walks', {
@@ -99,33 +124,28 @@
               body: JSON.stringify(form.value)
             });
             const result = await res.json();
-
             if (!res.ok) throw new Error(result.error || 'Error submitting walk request');
 
             message.value = result.message;
-            error.value = '';
-            form.value = {
-              dog_id: '',
-              requested_time: '',
-              duration_minutes: '',
-              location: ''
-            };
+            error.value   = '';
+            form.value = { dog_id:'', requested_time:'', duration_minutes:'', location:'' };
             loadWalks();
           } catch (err) {
-            error.value = err.message;
+            error.value   = err.message;
             message.value = '';
           }
         }
 
-        onMounted(() => {
-          loadWalks();
+        /* on mount */
+        onMounted(async () => {
+          await loadDogs();   // populate dropdown first
+          loadWalks();        // then pull existing requests
         });
 
+        /* exposed to template */
         return {
-          form,
-          walks,
-          message,
-          error,
+          form, dogs, walks,
+          message, error,
           submitWalkRequest
         };
       }
