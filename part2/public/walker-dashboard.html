@@ -45,6 +45,8 @@
         const error = ref('');
         const user = ref(null);// This should be set to the logged-in walker's ID
     // added
+
+    
         async function loadUser() {
           try {
             const res = await fetch('/api/user/me');
@@ -90,7 +92,7 @@
        // });
         onMounted(async () => {
           await loadUser();
-            if( user.value) 
+            if( user.value)
               await loadWalkRequests();
         });
 
