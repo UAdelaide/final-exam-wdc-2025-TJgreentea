@@ -22,6 +22,13 @@
       <div class="col-md-6">
         <label for="password" class="form-label">Password</label>
         <input type="password" class="form-control" id="password" v-model="password" required>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary" @click="login">Login</button>
+      </div>
+    </form>
+
+    <>
       <div class="card-body">
         <form @submit.prevent="login">
           <div class="mb-3">
