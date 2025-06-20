@@ -44,7 +44,8 @@
         const message = ref('');
         const error = ref('');
         const user = ref(null);// This should be set to the logged-in walker's ID
-    
+    // added
+     
         async function loadWalkRequests() {
           try {
             const res = await fetch('/api/walks');
