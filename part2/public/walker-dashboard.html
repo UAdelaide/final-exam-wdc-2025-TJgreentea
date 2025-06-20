@@ -53,7 +53,7 @@
             const data = await res.json();
             return data.id; // Assuming the API returns the user's ID
           } catch (err) {
-            error.value =error.message
+            error.value =error.message;
 
           }
         }
