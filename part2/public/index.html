@@ -12,7 +12,14 @@
   <div id="app" class="container py-5">
     <h1 class="mb-4 text-primary">{{ message }}</h1>
     <p class="lead">Connect with trusted walkers for your beloved dog!</p>
-    <fron id="login ">
+    <fron id="loginForm" class ="card mb-4">
+      <div class="card-header bg-primary text-white">
+        Login to Your Account
+      </div>
+      <div class="card-body">
+        <form @submit.prevent="login">
+          <div class="mb-3">
+            <label class="form-label
 
   </div>
 
