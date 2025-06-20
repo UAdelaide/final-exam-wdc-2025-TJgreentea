@@ -83,6 +83,12 @@ router.get('/:dogs', async (req, res) =>{
         FROM Dogs
       WHERE owner_id = ?
     `, [ownerID]);
+    res.json(rows);
+  } catch (error) {
+    console.error('SQL Error:', error);
+    res.status(500).json({ error: 'Failed to fetch dogs' });
+  }
+}
 
     if (rows.length === 0) {
       return res.status(404).json({ error: 'Dog not found' });
