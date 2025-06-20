@@ -46,7 +46,17 @@
         const user = ref(null);// This should be set to the logged-in walker's ID
     // added
 
-        async
+        async function getCurrentUser() {
+          try {
+            const res = await fetch('/api/user/me');
+            if (!res.ok) throw new Error('Failed to load user data');
+            const data = await res.json();
+            return data.id; // Assuming the API returns the user's ID
+          } catch (err) {
+            error.value = "please log in'";
+            return null;
+          }
+        }
 
         async function loadUser() {
           try {
