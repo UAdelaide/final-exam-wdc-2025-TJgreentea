@@ -53,19 +53,20 @@
             const data = await res.json();
             return data.id; // Assuming the API returns the user's ID
           } catch (err) {
-            error.value =error.message;'";
+            error.value =error.message;
 
           }
         }
 
         async function loadUser() {
           try {
-            const res = await fetch('/api/user/me');
-            if (!res.ok) throw new Error('Failed to load user data');
-            const data = await res.json();
-            user.value = data.id; // Assuming the API returns the user's ID
+            user.value = await getCurrentUser();
+            if (!user.value) {
+              error.value = 'You must be logged in to view this page';
+              return;
+            }
           } catch (err) {
-            error.value = "please log in'"
+            error.value = err.message;
           }
 
         }
