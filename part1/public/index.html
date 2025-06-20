@@ -5,11 +5,16 @@
   <title>Dog Walking Service – Dog of the Day</title>
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <style>
-    /* ─── KINEMATIC LOAD BREAK: one simple pulsing animation ─── */
-    #dog { animation: pulse 2s infinite; }
+    /* ─── KINEMATIC LOAD BREAK: pulsing animation on the image ─── */
+    #dog {
+      max-width: 300px;      /* limit size so it’s not overwhelming */
+      width: 100%;
+      height: auto;
+      animation: pulse 2s infinite;
+    }
     @keyframes pulse {
-      0%,100% { transform: scale(1); }
-      50%     { transform: scale(1.1); }
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.1); }
     }
   </style>
 </head>
@@ -17,11 +22,13 @@
   <div id="app">
     <h1>🐶 Dog of the Day</h1>
 
-    <!-- ─── ACCESSIBILITY BREAK: no alt attribute on <img> ─── -->
+    <!-- ─── ACCESSIBILITY BREAK: no alt attribute on the image ─── -->
     <img id="dog" :src="imgUrl">
 
     <!-- ─── COGNITIVE LOAD BREAK: one long, unbroken paragraph ─── -->
-    <p>{{ longBlurb }}</p>
+    <p>
+      {{ longBlurb }}
+    </p>
   </div>
 
   <script>
@@ -31,9 +38,9 @@
         return {
           imgUrl: '',
           longBlurb: `This friendly pup loves fetch, swimming, hiking, agility courses, socializing
-          at the dog park, cuddling on the couch, learning new tricks like rollover and play dead,
-          enjoys long treats of peanut butter, and always wags its tail when it sees you—truly
-          a companion for every type of adventure you can imagine!`
+at the dog park, cuddling on the couch, learning new tricks like rollover and play dead,
+enjoys long treats of peanut butter, and always wags its tail when it sees you—truly
+a companion for every type of adventure you can imagine!`
         };
       },
       async mounted() {
