@@ -2,9 +2,8 @@
 app.get('/api/dogs', async (req, res) => {
     try {
       const pool = req.app.locals.pool;
-      
-      const [rows] = await pool.query(`
-        SELECT
+
+      SELECT
           d.name         AS dog_name,
           d.size,
           u.username     AS owner_username
@@ -13,7 +12,7 @@ app.get('/api/dogs', async (req, res) => {
           ON d.owner_id = u.user_id
       `);
 
-      // return as JSON
+      //
       res.json(rows);
     } catch (err) {
       console.error('Error in /api/dogs:', err);
