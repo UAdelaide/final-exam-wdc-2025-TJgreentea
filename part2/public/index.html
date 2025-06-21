@@ -100,7 +100,15 @@
       }
     }).mount('#app');
 
-    try 
+    async loadDogs() {    
+      try {
+        const res = await fetch('/api/walks/dogs');
+        if (!res.ok) throw new Error('Failed to fetch dogs');
+        this.dogs = await res.json(); // [{dog_id,name}, …]
+      } catch (err) {
+        this.dogError = err.message;
+      }
+    }
   </script>
 
   <script
