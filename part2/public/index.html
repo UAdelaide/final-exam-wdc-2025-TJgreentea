@@ -110,7 +110,11 @@
       }
     }
     const withPics=await Promise.all
-    
+    base.map(async d=> {
+      const res = await fetch(`https://dog.ceo/api/breeds/image/random`);
+      const data = await res.json();
+      return { ...d, image: data.message };
+    });
   </script>
 
   <script
