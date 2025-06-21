@@ -1,6 +1,6 @@
 const express=require('express');
-const app = express();
-const path = require('path');   
+const router=express.Router();
+const db = require('path');
 app.get('/api/dogs', async (req, res) => {
     try {
       const pool = req.app.locals.pool;
