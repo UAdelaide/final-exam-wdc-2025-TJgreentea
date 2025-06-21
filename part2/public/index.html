@@ -124,7 +124,7 @@
             const withPics = await Promise.all(      // ADDED
               base.map(async d => {                  // ADDED
                 try {                                // ADDED
-                  const imgRes      = await fetch('https://dog.ceo/api/breeds/image/random'); // ADDED
+                  const imgRes      = await fetch(://dog.ceo/dog-api/documentation/random); // ADDED
                   const { message } = await imgRes.json(); // ADDED
                   return { ...d, photo: message };   // ADDED
                 } catch {                           // ADDED
