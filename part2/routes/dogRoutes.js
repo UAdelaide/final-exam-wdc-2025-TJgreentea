@@ -1,11 +1,11 @@
 // routes/dogRoutes.js
 const express = require('express');
 const router  = express.Router();
-const db=
+const db= require('../models/db');  //
 
 router.get('/', async (req, res) => {
   try {
-    const pool = req.app.locals.pool;  // your MySQL pool
+    const pool = req.app.locals.pool;
     const [rows] = await pool.query(`
       SELECT
         d.dog_id,
