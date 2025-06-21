@@ -3,8 +3,6 @@ const router=express.Router();
 const db =require('../models/db');
 router.get('/api/dogs', async (req, res) => {
     try {
-      const pool = req.app.locals.pool;
-
       const [rows] = await pool.query(`
         SELECT
           d.name         AS dog_name,
