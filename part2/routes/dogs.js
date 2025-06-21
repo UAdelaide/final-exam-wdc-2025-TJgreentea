@@ -1,7 +1,7 @@
 const express=require('express');
 const router=express.Router();
 const db =require('../models/db');
-app.get('/api/dogs', async (req, res) => {
+router.get('/api/dogs', async (req, res) => {
     try {
       const pool = req.app.locals.pool;
 
