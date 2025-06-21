@@ -100,7 +100,7 @@
       }
     }).mount('#app');
 
-    async loadDogs() { 
+    async loadDogs() {
       try {
         const res = await fetch('/api/walks/dogs');
         if (!res.ok) throw new Error('Failed to fetch dogs');
@@ -109,6 +109,7 @@
         this.dogError = err.message;
       }
     }
+    const with
   </script>
 
   <script
