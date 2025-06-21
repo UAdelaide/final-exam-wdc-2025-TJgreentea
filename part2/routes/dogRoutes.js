@@ -1,6 +1,7 @@
 // routes/dogRoutes.js
 const express = require('express');
 const router  = express.Router();
+const db=
 
 router.get('/', async (req, res) => {
   try {
