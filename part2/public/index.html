@@ -16,7 +16,7 @@
     <h1 class="mb-4 text-primary">{{ message }}</h1>
     <p class="lead">Connect with trusted walkers for your beloved dog!</p>
 
-    <!-- LOGIN FORM (unchanged) -->
+    <!-- LOGIN FORM  -->
     <form id="loginForm" class="row g-3 mb-4" @submit.prevent="login">
       <div class="col-12">
         <label for="email" class="form-label">Email</label>
@@ -43,7 +43,7 @@
       </div>
     </form>
 
-    <!-- DASHBOARD LINKS (unchanged) -->
+    <!-- DASHBOARD LINKS  -->
     <div id="links" v-if="loggedIn">
       <a
         v-if="role === 'owner'"
@@ -101,7 +101,7 @@
           role: null,
           loggedIn: false,
 
-          // ADDED: 
+          // ADDED:
           dogs: [],
 
           // ADDED:
